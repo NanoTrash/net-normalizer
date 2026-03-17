@@ -1,5 +1,3 @@
----
-
 # net-normalizer
 
 Утилита для дедупликации и объединения IPv4 подсетей и фильтрации IP-адресов, которые уже входят в указанные сети.
@@ -59,5 +57,3 @@ cargo build --release
 ```bash
 cat input.json | ./target/release/net-normalizer
 ```
-
----
