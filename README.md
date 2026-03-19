@@ -8,6 +8,7 @@
 ### Особенности
 
 * Объединяет перекрывающиеся подсети (`CIDR merge`)
+* Добавлена функция вычитания черного списка
 * Убирает IP, находящиеся внутри сетей
 * Поддержка JSON ввода/вывода
 * Работает с приватными и публичными IPv4
@@ -52,21 +53,25 @@ cargo build --release
 * Через файл:
 
 ```bash
-./target/release/net-normalizer input.json
-```
+# Без blacklist
+./net-normalizer input.json
 
-* Через stdin:
+# С blacklist
+./net-normalizer input.json restricted.json
 
-```bash
-cat input.json | ./target/release/net-normalizer
+# Через pipe (без blacklist)
+cat input.json | ./net-normalizer
+
+# Через pipe + blacklist
+cat input.json | ./net-normalizer restricted.json
 ```
 
 # 1. Сборка релиза
-cargo build --release
+`cargo build --release`
 
 # 2. Запуск тестов
-cargo test
-
+`cargo test`
+```
 running 5 tests
 test tests::test_ip_to_u32_roundtrip ... ok
 test tests::test_merge_adjacent_ranges ... ok
@@ -75,13 +80,13 @@ test tests::test_subtract_ranges_no_overlap ... ok
 test tests::test_subtract_ranges_split ... ok
 
 test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
-
+```
 # 3. Запуск тестов с выводом (если нужно)
-cargo test -- --nocapture
+`cargo test -- --nocapture`
 
 # 4. Проверка без оптимизаций (быстрее)
-cargo test --dev
-
+`cargo test --dev`
+```
 Случай 1: Нет пересечения
 Input:      [───────────────]
 Restricted:                   [───────]
@@ -110,9 +115,9 @@ Result:     [───]       [───────]  ← средняя час
             до          после
             restricted  restricted
 
+```
 
-
-
+```
 
 ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
 │   input.json    │ --> │   CIDR → Range  │ --> │   merge_ranges  │
@@ -141,3 +146,4 @@ Result:     [───]       [───────]  ← средняя час
                                                 │   output.json       │
                                                 │   (без restricted)  │
                                                 └─────────────────────┘
+```
