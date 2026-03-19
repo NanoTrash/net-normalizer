@@ -42,30 +42,6 @@
 }
 ```
 
-### Сборка
-
-```bash
-cargo build --release
-```
-
-### Примеры запуска
-
-* Через файл:
-
-```bash
-# Без blacklist
-./net-normalizer input.json
-
-# С blacklist
-./net-normalizer input.json restricted.json
-
-# Через pipe (без blacklist)
-cat input.json | ./net-normalizer
-
-# Через pipe + blacklist
-cat input.json | ./net-normalizer restricted.json
-```
-
 # 1. Сборка релиза
 `cargo build --release`
 
@@ -81,6 +57,22 @@ test tests::test_subtract_ranges_split ... ok
 
 test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 ```
+### Примеры запуска
+
+```bash
+# Без blacklist
+./net-normalizer input.json
+
+# С blacklist
+./net-normalizer input.json restricted.json
+
+# Через pipe (без blacklist)
+cat input.json | ./net-normalizer
+
+# Через pipe + blacklist
+cat input.json | ./net-normalizer restricted.json
+```
+
 # 3. Запуск тестов с выводом (если нужно)
 `cargo test -- --nocapture`
 
